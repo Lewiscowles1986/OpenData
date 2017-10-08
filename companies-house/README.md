@@ -33,6 +33,11 @@ Sane defaults are provided and noted below:
 sudo rm /tmp/companies.db
 sudo rm /tmp/BasicCompanyDataAsOneFile*.csv
 sudo rm /tmp/BasicCompanyDataAsOneFile*.zip
+
 ```
 
+### Troubleshooting
 
+Looks like someone allowed output a backslash in at least one record (line 285689) `sudo head -n 285689 companydatafixed.csv | tail -1`. This can be fixed by using `sed -re  's/\\\",\"/\",\"/ig' /tmp/BasicCompanyDataAsOneFile-2017-10-01.csv > /tmp/companydatafixed.csv` (tried `i` flag, for whatever reason I couldn't get it to work).
+
+This was in logs of sqlite, but MySQL really threw a hissy-fit over this.
