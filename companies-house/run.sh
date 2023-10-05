@@ -1,11 +1,13 @@
 #!/bin/bash
 
 if [ -z "$ARCHIVEFILE" ]; then
-    ARCHIVEFILE="BasicCompanyDataAsOneFile-2017-10-01.zip"
+    # curl -s https://download.companieshouse.gov.uk/en_output.html | \
+    # pup '#mainContent > div.grid_7.push_1.omega > ul:nth-child(4) > li > a attr{href}'
+    ARCHIVEFILE="BasicCompanyDataAsOneFile-2023-10-04.zip"
 fi
 
 if [ -z "$INNERFILE" ]; then
-    INNERFILE="BasicCompanyDataAsOneFile-2017-10-01.csv"
+    INNERFILE="BasicCompanyDataAsOneFile-2023-10-04.csv"
 fi
 
 if [ -z "$DBFILE" ]; then
@@ -23,6 +25,7 @@ BASEDIR=$(dirname "$SCRIPT")
 
 checkArchiveFileExistsOrDownload() {
     if [ ! -f "$WORKDIR/$ARCHIVEFILE" ]; then
+        echo "$WORKDIR/$ARCHIVEFILE does not exist. Downloading..."
         wget http://download.companieshouse.gov.uk/$ARCHIVEFILE || (echo "something went wrong with download" && exit 1)
     else
         echo "archive '$ARCHIVEFILE' exists"
@@ -56,11 +59,12 @@ importDBIfNeeded() {
 }
 
 main() {
-    cd $WORKDIR
+    pushd "$WORKDIR"
     checkArchiveFileExistsOrDownload
     unpackArchiveFile
 
     importDBIfNeeded
+    popd
 }
 
 main

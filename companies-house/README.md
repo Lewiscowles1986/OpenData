@@ -13,6 +13,10 @@
 * `wget` command or alias
 * `sqlite3` binaries present within `PATH`
 * (optional) time utility to verify runtime
+* (optional) `pup` for seeing what the latest ARCHIVEFILE is
+  
+  >  brew tap-new --branch master EricChiang/pup
+  >  brew install pup
 
 ### Config
 
